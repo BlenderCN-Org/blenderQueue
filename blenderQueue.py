@@ -11,14 +11,20 @@ bl_info = {
 
 
 import bpy, os, subprocess
-
+from subprocess import Popen, PIPE
 
 def renderQueue(self, context):
 	
-    print("hello render commandline")
-    
-    #get the blender path
-    subprocess.call(['open', '-W', '-a', 'Terminal.app'])
+	print("hello render commandline")
+	
+	#get the blender path
+	#subprocess.call(['open', '-W', '-a', 'Terminal.app', '&'])
+	
+	command = ['open', '-W', '-a', 'Terminal.app', '&']
+				
+	p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+	stdout, err = p.communicate(b"")
+	rc = p.returncode
 
 
 class RENDER_queue(bpy.types.Operator):
