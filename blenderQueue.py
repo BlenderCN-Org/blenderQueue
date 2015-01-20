@@ -17,14 +17,40 @@ def renderQueue(self, context):
 	
 	print("hello render commandline")
 	
-	#get the blender path
-	#subprocess.call(['open', '-W', '-a', 'Terminal.app', '&'])
+	blendPath = bpy.path.abspath("//") # could also do bpy.data.filepath
+	print("-b {x} -x 1 -a".format(x=blendPath))
 	
-	command = ['open', '-W', '-a', 'Terminal.app', '&']
-				
+	""" I have no idea what I'm doing (below) """
+	
+	#get the blender path
+	
+	#below shows currently open command line OR opens new if not already open
+	command = ['open', '-W', '-a', 'Terminal.app']
+	# and blender would return and be active once you closed the terminal (..twice. first time closed reappears)
+
+	#command = ['open', '-W', '-a', 'Terminal.app', '~']
+	#makes it do nothing. Through just terminal, will launch new window regardless at that directory
+	# even adding "&" made it work as I wanted!!!!!! ie in terminal: "open -W -a Terminal.app ~/Desktop &"
+	# opened a new terminal window at said directory, but original process would keep going
+	
+	#subprocess.call(command)
+	#below won't freeze blender, but then can't see shell
+	#subprocess.Popen(command, creationflags=0x00000008)
+	# yay! windows only -_-
+	
+	# will NOT freeze blender! popen is the proper way to do background...
+	# but same deal, if terminal already open just brings that forward..
+	
+	#os.system("start cmd /K dir")
+	
+	# below works on command line (mac at least), but not through python so far
+	#command = ['open', '-a', 'Terminal', "`pwd`"]
+	#command = []
+	"""
 	p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 	stdout, err = p.communicate(b"")
 	rc = p.returncode
+	"""
 
 
 class RENDER_queue(bpy.types.Operator):
